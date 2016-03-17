@@ -1,0 +1,16 @@
+<form action="/groupr_app/query_student/" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% if students %}
+Students:
+	<ul>
+	{% for student in students %}
+		<li> <a href="{% url 'groupr_app:update_student' student.netId %}"><b>{{ student.name }}</b> - {{ student.netId }} - {{ student.yearInSchool }}</li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>Select a year from above.</p>
+{% endif %}
