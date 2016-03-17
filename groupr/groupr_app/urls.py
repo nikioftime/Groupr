@@ -2,10 +2,10 @@ from django.conf.urls import url
 
 from . import views
 
-app_name = 'groupr_app'
+app_name = 'groupr'
 urlpatterns = [
     # ex: /polls/
-    #url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^$', views.index, name='index'),
     url(r'^update_student/$', views.UpdateStudentListView.as_view(), name='update_student_list'),
     url(r'^update_student/(?P<netId>\w+)/$', views.update_student, name='update_student'),
     url(r'^add_student/$', views.insert_student, name='add_student'),

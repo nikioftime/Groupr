@@ -1,4 +1,4 @@
-<form action="/groupr_app/query_student/" method="post">
+<form action="/groupr/query_student/" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
@@ -8,7 +8,7 @@
 Students:
 	<ul>
 	{% for student in students %}
-		<li> <a href="{% url 'groupr_app:update_student' student.netId %}"><b>{{ student.name }}</b> - {{ student.netId }} - {{ student.yearInSchool }}</li>
+		<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> - {{ student.netId }} - {{ student.yearInSchool }}</li>
 	{% endfor %}
 	</ul>
 {% else %}
