@@ -1,0 +1,14 @@
+<form action="/groupr_app/update_student/{{netId}}/" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <p>
+        {{ field.errors }}
+        {% if field.label == "netId" %}
+        	netId: {{ field.value }}
+        {% else %}
+        	{{ field.label_tag }} {{ field }}
+        {% endif %}
+    </p>
+	{% endfor %}
+    <input type="submit" value="Submit" />
+</form>

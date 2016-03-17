@@ -12,8 +12,8 @@ TABLE_FIELDS = {	"Available" : ['netId', 'day', 'start', 'end'],
 					"Preferred" : ['netId', 'day', 'start', 'end'],
 					"Project" : ['projectId', 'groupId', 'summary', 'name'],
 					"Skills" : ['name'],
-					"SkillsDesired" : ['name', 'skillName'],
-					"SkillsKnown" : ['name', 'skillName'],
+					"SkillsDesired" : ['netId', 'skillName'],
+					"SkillsKnown" : ['netId', 'skillName'],
 					"Student" : ['netId', 'name', 'bio', 'major', 'yearInSchool'],
 					"Suggested" : ['groupId', 'netId'],
 					"Teaches" : ['netId', 'instructorName'],
@@ -30,7 +30,7 @@ def insert_query(table, values):
 			return None
 		field_string = field_string + field + ", "
 		if isinstance(value, str):
-			value = "\'" + value + "\'"
+			value = "\"" + value + "\""
 		else:
 			value = str(value)
 		value_string = value_string + value + ", "
@@ -47,7 +47,7 @@ def update_query(table, fields, conditions):
 		if field not in TABLE_FIELDS[table]:
 			return None
 		if isinstance(value, str):
-			value = "\'" + value + "\'"
+			value = "\"" + value + "\""
 		else:
 			value = str(value)
 		fields_newvals_string = fields_newvals_string + field + "=" + value + ", "
@@ -72,8 +72,8 @@ def select_query(tables, fields, conditions):
 		return None
 	table_string = ''
 	for table in tables:
-		table_string = table_string + table + ", "
-	table_string = table_string[:-2]
+		table_string = table_string + table + " INNER JOIN "
+	table_string = table_string[:-1*len(" INNER JOIN ")]
 
 	if fields:
 		field_string = ''
@@ -93,6 +93,7 @@ def select_query(tables, fields, conditions):
 
 def insert(table, values):
 	query = insert_query(table, values)
+	print(query)
 	if query is None:
 		return 
 	cursor = connection.cursor()
@@ -114,6 +115,7 @@ def select(tables, fields, conditions):
 	query = select_query(tables, fields, conditions)
 	if query is None:
 		return
+	print(query)
 	cursor = connection.cursor()
 	cursor.execute(query)
 
