@@ -76,7 +76,7 @@ def insert_student(request):
 				project_id = project[0]['projectId']
 				insert('Idea', {'projectId' : project_id, 'netId' : student_values['netId']})
 
-			return HttpResponseRedirect('/groupr_app/add_student/')
+			return HttpResponseRedirect('/groupr/add_student/')
 
 	# if a GET (or any other method) we'll create a blank form
 	else:
@@ -186,7 +186,7 @@ def update_student(request, netId):
 							insert('Idea', {'projectId' : project_id, 'netId' : netId})
 
 
-				return HttpResponseRedirect('/groupr_app/update_student/')
+				return HttpResponseRedirect('/groupr/update_student/')
 
 	# if a GET (or any other method) we'll create a blank form
 	else:
@@ -211,7 +211,7 @@ def delete_student(request, netId):
 		delete('Project', "groupId={0}".format(group_id))
 	delete('PartOf', netId_match)
 
-	return HttpResponseRedirect('/groupr_app/delete_student/')
+	return HttpResponseRedirect('/groupr/delete_student/')
 
 def query_student(request):
 	students = {}
@@ -227,6 +227,9 @@ def query_student(request):
 		form = SimpleQueryByYear()
 
 	return render(request, 'groupr_app/querystudentbyyear.html', {'form': form, 'students': students})
+
+def index(request):
+	return render(request, 'groupr_app/index.html')
 
 
 
