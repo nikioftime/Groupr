@@ -72,8 +72,8 @@ def select_query(tables, fields, conditions):
 		return None
 	table_string = ''
 	for table in tables:
-		table_string = table_string + table + " INNER JOIN "
-	table_string = table_string[:-1*len(" INNER JOIN ")]
+		table_string = table_string + table + ", "
+	table_string = table_string[:-2]
 
 	if fields:
 		field_string = ''
