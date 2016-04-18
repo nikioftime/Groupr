@@ -1,15 +1,3 @@
-<!--{% if students %}
-Students:
-	<ul>
-	{% for student in students %}
-		<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> {{ student.netId }} </a> </li>
-	{% endfor %}
-	</ul>
-{% else %}
-	<p>No students are registered yet.</p>
-{% endif %}-->
-
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -37,39 +25,25 @@ Students:
           <h2><a href="{% url 'groupr:index' %}">Welcome to Groupr</a></h2>
           <span class="byline">A better way to find and make groups for your next class project!</span> </header>
 
-        <!--Students:
-		<ul>
+          (You guys need to add the query commands here.
+          I am not sure exactly how you set up group creation in the database.
+          It should be very similar to the code for adding a student,
+          which is in a comment below this line in studentaddgroup.html.)
 
-			<li> <a href="/groupr/update_student/skywalk3/"><b>luke skywalker</b> skywalk3 </a> </li>
+          <br><br>
 
-			<li> <a href="/groupr/update_student/ncwells2/"><b>niki wells</b> ncwells2 </a> </li>
+          Something like: <br>
+          Skills Desired: [input box] <br>
+          Languages Desired: [input box] <br>
+          Project Name: [input box] <br>
+          Project Idea Summary: [input box] <br>
+          Project Focus Area: [input box] (did we implement this?) <br>
 
-			<li> <a href="/groupr/update_student/granger2/"><b>hermione granger</b> granger2 </a> </li>
-
-			<li> <a href="/groupr/update_student/longbot2/"><b>neville longbottom</b> longbot2 </a> </li>
-
-			<li> <a href="/groupr/update_student/weasley9/"><b>ron weasley</b> weasley9 </a> </li>
-
-			<li> <a href="/groupr/update_student/hasolo2/"><b>han solo</b> hasolo2 </a> </li>
-
-			<li> <a href="/groupr/update_student/fn2187/"><b>finn ???</b> fn2187 </a> </li>
-
-			<li> <a href="/groupr/update_student/pdamero2/"><b>poe dameron</b> pdamero2 </a> </li>
-
-			<li> <a href="/groupr/update_student/rogers2/"><b>steve rogers</b> rogers2 </a> </li>
-
-		</ul>-->
-
-		  {% if students %}
-			Students:
-			<ul>
-			{% for student in students %}
-				<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> {{ student.netId }} </a> </li>
-			{% endfor %}
-			</ul>
-		  {% else %}
-			<p>No students are registered yet.</p>
-		  {% endif %}
+          <!--<form action="/groupr/add_student/" method="post">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" value="Submit" />
+          </form>-->
 
       </article>
 
@@ -87,7 +61,18 @@ Students:
       </ul>
     </nav>
 
-
+<!--    <section class="is-recent-posts">
+      <header>
+        <h2>Recent Posts</h2>
+      </header>
+      <ul>
+        <li><a href="#">Nothing happened</a></li>
+        <li><a href="#">My Dearest Cthulhu</a></li>
+        <li><a href="#">The Meme Meme</a></li>
+        <li><a href="#">Now Full Cyborg</a></li>
+        <li><a href="#">Temporal Flux</a></li>
+      </ul>
+    </section>-->
 
 
     <div id="copyright">

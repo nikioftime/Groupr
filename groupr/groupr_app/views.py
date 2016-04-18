@@ -231,6 +231,18 @@ def query_student(request):
 def index(request):
 	return render(request, 'groupr_app/index.html')
 
+def student_page(request):
+	return render(request, 'groupr_app/studentpage.html')
+
+def student_search_group(request):
+	return render(request, 'groupr_app/studentsearchgroup.html')
+
+def student_add_group(request):
+	return render(request, 'groupr_app/studentaddgroup.html')
+
+def instructor_page(request):
+	return render(request, 'groupr_app/instructorpage.html')
+
 
 
 

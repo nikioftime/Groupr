@@ -1,15 +1,3 @@
-<!--{% if students %}
-Students:
-	<ul>
-	{% for student in students %}
-		<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> {{ student.netId }} </a> </li>
-	{% endfor %}
-	</ul>
-{% else %}
-	<p>No students are registered yet.</p>
-{% endif %}-->
-
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -37,39 +25,14 @@ Students:
           <h2><a href="{% url 'groupr:index' %}">Welcome to Groupr</a></h2>
           <span class="byline">A better way to find and make groups for your next class project!</span> </header>
 
-        <!--Students:
-		<ul>
-
-			<li> <a href="/groupr/update_student/skywalk3/"><b>luke skywalker</b> skywalk3 </a> </li>
-
-			<li> <a href="/groupr/update_student/ncwells2/"><b>niki wells</b> ncwells2 </a> </li>
-
-			<li> <a href="/groupr/update_student/granger2/"><b>hermione granger</b> granger2 </a> </li>
-
-			<li> <a href="/groupr/update_student/longbot2/"><b>neville longbottom</b> longbot2 </a> </li>
-
-			<li> <a href="/groupr/update_student/weasley9/"><b>ron weasley</b> weasley9 </a> </li>
-
-			<li> <a href="/groupr/update_student/hasolo2/"><b>han solo</b> hasolo2 </a> </li>
-
-			<li> <a href="/groupr/update_student/fn2187/"><b>finn ???</b> fn2187 </a> </li>
-
-			<li> <a href="/groupr/update_student/pdamero2/"><b>poe dameron</b> pdamero2 </a> </li>
-
-			<li> <a href="/groupr/update_student/rogers2/"><b>steve rogers</b> rogers2 </a> </li>
-
-		</ul>-->
-
-		  {% if students %}
-			Students:
-			<ul>
-			{% for student in students %}
-				<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> {{ student.netId }} </a> </li>
-			{% endfor %}
-			</ul>
-		  {% else %}
-			<p>No students are registered yet.</p>
-		  {% endif %}
+          Student View <br>
+		  <ul>
+			<li><a href="{% url 'groupr:add_student' %}">Add student profile</a></li>
+			<li><a href="{% url 'groupr:update_student_list' %}">Update student profile</a></li>
+			<li><a href="{% url 'groupr:delete_student_list' %}">Delete student profile</a></li>
+			<li><a href="{% url 'groupr:student_add_group' %}">Start a group</a></li>
+            <li><a href="{% url 'groupr:student_search_group' %}">Search for existing groups</a></li>
+		  </ul>
 
       </article>
 
@@ -87,7 +50,18 @@ Students:
       </ul>
     </nav>
 
-
+<!--    <section class="is-recent-posts">
+      <header>
+        <h2>Recent Posts</h2>
+      </header>
+      <ul>
+        <li><a href="#">Nothing happened</a></li>
+        <li><a href="#">My Dearest Cthulhu</a></li>
+        <li><a href="#">The Meme Meme</a></li>
+        <li><a href="#">Now Full Cyborg</a></li>
+        <li><a href="#">Temporal Flux</a></li>
+      </ul>
+    </section>-->
 
 
     <div id="copyright">

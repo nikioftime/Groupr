@@ -1,4 +1,4 @@
-<form action="/groupr/update_student/{{netId}}/" method="post">
+<!--<form action="/groupr/update_student/{{netId}}/" method="post">
     {% csrf_token %}
     {% for field in form %}
     <p>
@@ -11,4 +11,121 @@
     </p>
 	{% endfor %}
     <input type="submit" value="Submit" />
-</form>
+</form>-->
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Groupr</title>
+<meta charset="utf-8">
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet">
+<script src="../../static/groupr_app/js/jquery-1.8.3.min.js"></script>
+<script src="../../static/groupr_app/css/5grid/init.js?use=mobile,desktop,1200px,1000px&amp;mobileUI=1&amp;mobileUI.theme=none"></script>
+<noscript>
+<link rel="stylesheet" href="../../static/groupr_app/css/5grid/core.css">
+<link rel="stylesheet" href="../../static/groupr_app/css/5grid/core-desktop.css">
+<link rel="stylesheet" href="../../static/groupr_app/css/5grid/core-1200px.css">
+<link rel="stylesheet" href="../../static/groupr_app/css/5grid/core-noscript.css">
+<link rel="stylesheet" href="../../static/groupr_app/css/style.css">
+<link rel="stylesheet" href="../../static/groupr_app/css/style-desktop.css">
+<link rel="stylesheet" href="../../static/groupr_app/css/style-1200px.css">
+    <link rel="stylesheet" type="text/css" href=".css">
+</noscript>
+</head>
+<body class="left-sidebar">
+<div id="wrapper">
+  <div id="content" class="mobileUI-main-content">
+    <div id="content-inner">
+      <article class="is-post is-post-excerpt">
+        <header>
+          <h2><a href="{% url 'groupr:index' %}">Welcome to Groupr</a></h2>
+          <span class="byline">A better way to find and make groups for your next class project!</span> </header>
+
+        <!--<form action="/groupr/update_student/skywalk3/" method="post">
+            <input type='hidden' name='csrfmiddlewaretoken' value='sAW14BBQEeEcm0SgMEWpgxMfNGc4pbmI' />
+            <p>
+            <label for="id_name">Student name:</label> <input id="id_name" maxlength="50" name="name" type="text" value="luke skywalker" />
+            </p>
+            <p>
+            netId: skywalk3
+            </p>
+            <p>
+            <label for="id_bio">bio:</label> <textarea cols="40" id="id_bio" name="bio" rows="10">
+            </textarea>
+            </p>
+            <p>
+            <label for="id_major">Major:</label> <input id="id_major" name="major" type="text" />
+            </p>
+            <p>
+            <label for="id_yearInSchool">Year In School:</label> <select id="id_yearInSchool" name="yearInSchool">
+                <option value="freshman">Freshman</option>
+                <option value="sophomore">Sophomore</option>
+                <option value="junior">Junior</option>
+                <option value="senior">Senior</option>
+                <option value="grad" selected="selected">Graduate</option>
+                <option value="other">Other</option>
+            </select>
+            </p>
+            <p>
+            <label for="id_skillsKnown">Known skills (separated by spaces):</label> <input id="id_skillsKnown" name="skillsKnown" type="text" />
+            </p>
+            <p>
+            <label for="id_skillsDesired">Skills desired (separated by spaces):</label> <input id="id_skillsDesired" name="skillsDesired" type="text" />
+            </p>
+            <p>
+            <label for="id_langsKnown">Known languages (separated by spaces):</label> <input id="id_langsKnown" name="langsKnown" type="text" />
+            </p>
+            <p>
+            <label for="id_langsDesired">Languages desired (separated by spaces):</label> <input id="id_langsDesired" name="langsDesired" type="text" />
+            </p>
+            <p>
+            <label for="id_projectIdeaName">Project idea: Project name:</label> <input id="id_projectIdeaName" name="projectIdeaName" type="text" />
+            </p>
+            <p>
+            <label for="id_projectIdeaSummary">Project idea: Project summary:</label> <textarea cols="40" id="id_projectIdeaSummary" name="projectIdeaSummary" rows="10">
+            </textarea>
+            </p>
+            <input type="submit" value="Submit" />
+        </form>-->
+
+          <form action="/groupr/update_student/{{netId}}/" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <p>
+            {{ field.errors }}
+            {% if field.label == "netId" %}
+        	    netId: {{ field.value }}
+            {% else %}
+        	    {{ field.label_tag }} {{ field }}
+            {% endif %}
+            </p>
+	        {% endfor %}
+            <input type="submit" value="Submit" />
+          </form>
+
+      </article>
+
+    </div>
+  </div>
+  <div id="sidebar">
+    <div id="logo">
+      <h1 class="mobileUI-site-name">GROUPR</h1>
+    </div>
+    <nav id="nav" class="mobileUI-site-nav">
+      <ul>
+        <li><a href="{% url 'groupr:index' %}">Home</a></li>
+        <li class="current_page_item"><a href="{% url 'groupr:student_page' %}">Students</a></li>
+        <li><a href="{% url 'groupr:instructor_page' %}">Instructors</a></li>
+      </ul>
+    </nav>
+
+
+
+
+    <div id="copyright">
+    </div>
+  </div>
+</div>
+</body>
+</html>
