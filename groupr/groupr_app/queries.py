@@ -37,7 +37,11 @@ def insert_query(table, values):
 	field_string = field_string[:-2]
 	value_string = value_string[:-2]
 	query = "insert ignore into {0}({1}) values ({2})".format(table, field_string, value_string)
-
+	# insert_query("Student", {"netid": "ncwells2", "name": "niki"})
+	# table -> "Student"
+	# field_string -> "netid, name"
+	# value_string -> "ncwells2, niki"
+	# "insert into Student(netid, name) values ncwells2, niki"
 	return query
 
 def update_query(table, fields, conditions):
