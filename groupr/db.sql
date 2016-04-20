@@ -301,7 +301,7 @@ CREATE TABLE `Student` (
 
 LOCK TABLES `Student` WRITE;
 /*!40000 ALTER TABLE `Student` DISABLE KEYS */;
-INSERT INTO `Student` VALUES ('skywalk3','luke skywalker',NULL,NULL,'grad'),('ncwells2','niki wells',NULL,'computer science','junior'),('rey2','rey ????',NULL,NULL,'freshman'),('granger2','hermione granger','bright student seeking motivated, organized partners.','Computer Science','freshman'),('longbot2','neville longbottom','skilled herbologist, friend to rats, all-around alright guy',NULL,'freshman'),('weasley9','ron weasley','don\'t talk to me about spiders.',NULL,'freshman'),('hasolo2','han solo',NULL,NULL,'grad'),('fn2187','finn ???',NULL,NULL,'freshman'),('pdamero2','poe dameron',NULL,NULL,'junior'),('rogers2','steve rogers','Old soul',NULL,'senior');
+INSERT INTO `Student` VALUES ('skywalk3','luke skywalker',NULL,NULL,'grad'),('ncwells2','niki wells',NULL,'computer science','junior'),('rey2','rey ????',NULL,NULL,'freshman'),('granger2','hermione granger','bright student seeking motivated, organized partners.','Computer Science','freshman'),('longbot2','neville longbottom','skilled herbologist, friend to rats, all-around alright guy',NULL,'freshman'),('weasley9','ron weasley','don\'t talk to me about spiders.',NULL,'freshman'),('hasolo2','han solo',NULL,NULL,'grad'),('fn2187','finn ???',NULL,NULL,'freshman'),('pdamero2','poe dameron',NULL,NULL,'junior'),('rogers2','steve rogers','Old soul',NULL,'senior'),('obiwan1','obi-wan kenobi',NULL,NULL,'grad');
 /*!40000 ALTER TABLE `Student` ENABLE KEYS */;
 UNLOCK TABLES;
 
