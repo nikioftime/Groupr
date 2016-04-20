@@ -36,28 +36,28 @@ def insert_student(request):
 
 			# insert known skills
 			if form.cleaned_data['skillsKnown']:
-				known_skills = form.cleaned_data['skillsKnown'].lower().split()
+				known_skills = form.cleaned_data['skillsKnown'].lower().replace(', ', ',').split(',')
 				for skill in known_skills:
 					insert('Skills', {'name': skill})
 					insert('SkillsKnown', {'netId' : student_values['netId'], 'skillName' : skill})
 
 			#insert desired skills
 			if form.cleaned_data['skillsDesired']:
-				desired_skills = form.cleaned_data['skillsDesired'].lower().split()
+				desired_skills = form.cleaned_data['skillsDesired'].lower().replace(', ', ',').split(',')
 				for skill in desired_skills:
 					insert('Skills', {'name': skill})
 					insert('SkillsDesired', {'netId' : student_values['netId'], 'skillName' : skill})
 
 			#insert known languages
 			if form.cleaned_data['langsKnown']:
-				known_langs = form.cleaned_data['langsKnown'].lower().split()
+				known_langs = form.cleaned_data['langsKnown'].lower().replace(', ', ',').split(',')
 				for lang in known_langs:
 					insert('Languages', {'name' : lang})
 					insert('LanguagesKnown', {'netId' : student_values['netId'], 'languageName' : lang})
 
 			#insert desired languages
 			if form.cleaned_data['langsDesired']:
-				desired_langs = form.cleaned_data['langsDesired'].lower().split()
+				desired_langs = form.cleaned_data['langsDesired'].lower().replace(', ', ',').split(',')
 				for lang in desired_langs:
 					insert('Languages', {'name' : lang})
 					insert('LanguagesKnown', {'netId' : student_values['netId'], 'languageName' : lang})
