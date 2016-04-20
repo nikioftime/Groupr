@@ -36,7 +36,7 @@ def insert_query(table, values):
 		value_string = value_string + value + ", "
 	field_string = field_string[:-2]
 	value_string = value_string[:-2]
-	query = "insert into {0}({1}) values ({2})".format(table, field_string, value_string)
+	query = "insert ignore into {0}({1}) values ({2})".format(table, field_string, value_string)
 
 	return query
 
