@@ -91,25 +91,25 @@ def update_student(request, netId):
 	known_skills_list = select(['SkillsKnown'], ['skillName'], netId_match)
 	skillsKnown = ""
 	for skill in known_skills_list:
-		skillsKnown = skillsKnown + skill['skillName'] + " "
+		skillsKnown = skillsKnown + skill['skillName'] + ", "
 	initialStudentInfo['skillsKnown'] = skillsKnown[:-1]
 
 	desired_skills_list = select(['SkillsDesired'], ['skillName'], netId_match)
 	skillsDesired = ""
 	for skill in desired_skills_list:
-		skillsDesired = skillsDesired + skill['skillName'] + " "
+		skillsDesired = skillsDesired + skill['skillName'] + ", "
 	initialStudentInfo['skillsDesired'] = skillsDesired[:-1]
 
 	known_langs_list = select(['LanguagesKnown'], ['languageName'], netId_match)
 	langsKnown = ""
 	for lang in known_langs_list:
-		langsKnown = langsKnown + lang['languageName'] + " "
+		langsKnown = langsKnown + lang['languageName'] + ", "
 	initialStudentInfo['langsKnown'] = langsKnown[:-1]
 
 	desired_langs_list = select(['LanguagesDesired'], ['languageName'], netId_match)
 	langsDesired = ""
 	for lang in desired_langs_list:
-		langsDesired = langsDesired + lang['languageName'] + " "
+		langsDesired = langsDesired + lang['languageName'] + ", "
 	initialStudentInfo['langsDesired'] = langsDesired[:-1]
 
 	project_id = select(['Idea'], [], netId_match)
@@ -129,9 +129,12 @@ def update_student(request, netId):
 			# check whether it's valid:
 			if form.is_valid():
 				# process the data in form.cleaned_data as required
-				
-				updated_student_data = {key : form.cleaned_data[key] for key in list(set(form.changed_data) & 
-					set(TABLE_FIELDS['Student']))}
+				updated_student_data = {}
+				for key in TABLE_FIELDS['Student']:
+					if form.cleaned_data[key]:
+						updated_student_data[key] = form.cleaned_data[key].lower()
+				#updated_student_data = {key : form.cleaned_data[key] for key in list(set(form.changed_data) & 
+					#set(TABLE_FIELDS['Student']))}
 				if updated_student_data:
 					update('Student', updated_student_data, netId_match)
 
@@ -140,28 +143,28 @@ def update_student(request, netId):
 					known_skills = form.cleaned_data['skillsKnown'].lower().replace(', ', ',').split(',')
 					for skill in known_skills:
 						insert('Skills', {'name': skill})
-						insert('SkillsKnown', {'netId' : student_values['netId'], 'skillName' : skill})
+						insert('SkillsKnown', {'netId' : updated_student_data['netId'], 'skillName' : skill})
 
 				#insert desired skills
 				if 'skillsDesired' in form.changed_data:
 					desired_skills = form.cleaned_data['skillsDesired'].lower().replace(', ', ',').split(',')
 					for skill in desired_skills:
 						insert('Skills', {'name': skill})
-						insert('SkillsDesired', {'netId' : student_values['netId'], 'skillName' : skill})
+						insert('SkillsDesired', {'netId' : updated_student_data['netId'], 'skillName' : skill})
 
 				#insert known languages
 				if 'langsKnown' in form.changed_data:
 					known_langs = form.cleaned_data['langsKnown'].lower().replace(', ', ',').split(',')
 					for lang in known_langs:
 						insert('Languages', {'name' : lang})
-						insert('LanguagesKnown', {'netId' : student_values['netId'], 'languageName' : lang})
+						insert('LanguagesKnown', {'netId' : updated_student_data['netId'], 'languageName' : lang})
 
 				#insert desired languages
 				if 'langsDesired' in form.changed_data:
 					desired_langs = form.cleaned_data['langsDesired'].lower().replace(', ', ',').split(',')
 					for lang in desired_langs:
 						insert('Languages', {'name' : lang})
-						insert('LanguagesKnown', {'netId' : student_values['netId'], 'languageName' : lang})
+						insert('LanguagesKnown', {'netId' : updated_student_data['netId'], 'languageName' : lang})
 
 				if 'projectIdeaName' in form.changed_data or 'projectIdeaSummary' in form.changed_data:
 					project = select(['Idea'], ['projectId'], netId_match)
