@@ -43,6 +43,7 @@ def insert_query(table, values):
 	# value_string -> "ncwells2, niki"
 	# "insert into Student(netid, name) values ncwells2, niki"
 
+
 	return query
 
 def update_query(table, fields, conditions):
