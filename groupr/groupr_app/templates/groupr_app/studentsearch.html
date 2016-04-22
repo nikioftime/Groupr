@@ -72,7 +72,7 @@ Students:
 		  </form>
 
 			{% if students %}
-			Students:
+			Students (best matches first):
 		  	<ul>
 			{% for student in students %}
 				<li> <a href="{% url 'groupr:update_student' student.netId %}">{{ student.netId }}</a></li>
