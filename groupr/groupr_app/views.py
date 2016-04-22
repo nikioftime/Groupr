@@ -5,6 +5,7 @@ from django.views import generic
 from .forms import StudentForm, SimpleQueryByYear, StudentSearch
 from .queries import insert, update, delete, select, TABLE_FIELDS
 from .student_search import searchByDesiredLanguage
+from .student_skill import searchByDesiredSkill
 
 class UpdateStudentListView(generic.ListView):
 	template_name = 'groupr_app/updatestudentlist.html'
@@ -236,8 +237,9 @@ def query_student(request):
 
 	return render(request, 'groupr_app/querystudentbyyear.html', {'form': form, 'students': students})
 
-def student_search(request):
+def student_search_lang(request):
 	students = {}
+	netId = ""
 
 	if request.method == 'POST':
 		print(request.POST)
@@ -246,10 +248,32 @@ def student_search(request):
 		if form.is_valid:
 			netId = form.cleaned_data['netId']
 			students = searchByDesiredLanguage(netId)
+			if students == []:
+				students = None
 	else:
 		form = StudentSearch()
 
-	return render(request, 'groupr_app/studentsearch.html', {'form': form, 'students': students})
+	return render(request, 'groupr_app/studentsearchlang.html', {'form': form, 'students': students, 'netId': netId})
+
+def student_search_skill(request):
+	students = {}
+	netId = ""
+
+	if request.method == 'POST':
+		print(request.POST)
+		form = StudentSearch(request.POST)
+		print(form)
+		if form.is_valid:
+			netId = form.cleaned_data['netId']
+			students = searchByDesiredSkill(netId)
+			print(students)
+			if students == []:
+				students = None
+			print(students)
+	else:
+		form = StudentSearch()
+
+	return render(request, 'groupr_app/studentsearchskill.html', {'form': form, 'students': students, 'netId': netId})
 
 def index(request):
 	return render(request, 'groupr_app/index.html')

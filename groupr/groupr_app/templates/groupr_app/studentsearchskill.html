@@ -65,7 +65,9 @@ Students:
 		    <li> <a href="/groupr/update_student/fn2187/"><b>finn ???</b></a> - fn2187 - freshman</li>
 	    </ul>-->
 
-		  <form action="/groupr/student_search/" method="post">
+      <h3>Search for students based on skills</h3>
+
+		  <form action="/groupr/student_search_skill/" method="post">
     		{% csrf_token %}
     		{{ form.as_p }}
     		<input type="submit" value="Submit" />
@@ -79,7 +81,11 @@ Students:
 			{% endfor %}
 			</ul>
 			{% else %}
-				<p>Select a year from above.</p>
+				{% if students == None %}
+          <p>No matches found. To find matches, add desired skills to <a href="{% url 'groupr:update_student' netId %}">your profile</a></p>
+        {% else %}
+          <p>Enter your netId above.</p>
+        {% endif %}
 			{% endif %}
 
           <!--Ignore these breaks, this is dumb, but the format was a bit weird for this page.  I'll figure it out eventually.-->
