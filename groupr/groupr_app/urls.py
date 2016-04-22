@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^instructor_page/$', views.instructor_page, name='instructor_page'),
     url(r'^group_list/$', views.group_list.as_view(), name='group_list'),
     url(r'^group_student/(?P<seekerNetId>\w+)/(?P<foundNetId>\w+)$', views.group_student, name='group_student'),
+    url(r'^run_matching/$', views.run_matching, name='run_matching'),
+    url(r'^clear_groups/$', views.clear_groups, name='clear_groups')
 ]
