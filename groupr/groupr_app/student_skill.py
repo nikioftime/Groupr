@@ -1,3 +1,5 @@
+from django.db import connection
+
 #======================================================
 # Desired and known skills
 #======================================================
@@ -57,10 +59,14 @@ def searchByDesiredSkill (myId):
 	result = cursor.execute(resultQuery);
 
 	columns = [col[0] for col in cursor.description]
-	return [
+	return_dict = [
     	dict(zip(columns, row))
 		for row in cursor.fetchall()
 	]
+
+	cursor = connection.cursor();
+	cursor.execute(drop_query);
+	return return_dict
 
 
 
