@@ -16,23 +16,27 @@ class GroupList(generic.ListView):
     # which is displayed on the page for ListViews
     def get_queryset(self):
         # Get list of all the dictionaries of groups, each dict is a tuple
-		# keys are columns, values are the values in the columns
+        # keys are columns, values are the values in the columns
         # For each group, get netIds of Students in partof
-
         group_dicts = []
         group_dicts = select(['Groups'], ['id'], '')
-        student_list = []
+        group_info = []  # Returns list of group, [list of students] pairs
+        # student_list = []
         for tuple in group_dicts:
+            student_list = []
             group_member = select(['PartOf'], ['netId'], "WHERE PartOf.groupId = {0}".format(tuple['id']))  # ???
             student_list.append(group_member)
+            group_info.append([tuple['id'], student_list])
+        return group_info
+
 
 # Displays the group members of a specific group
-class GroupManagement(generic.ListView):
+"""class GroupManagement(generic.ListView):
     template_name = "groupmanagement.html"
     context_object_name = 'group'
 
-	def get_queryset(self):
-
+    def get_queryset(self):
+"""
 
 
 class UpdateStudentListView(generic.ListView):

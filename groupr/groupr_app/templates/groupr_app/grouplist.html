@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>g</title>
+    <title>Group List</title>
 </head>
 <body>
+
+{% if groups %}
+    Groups:
+    <ul>
+        {% for group in groups %}
+            <li></li>
+    </ul>
+
+{% if groups %}
+			Students:
+			<ul>
+			{% for student in students %}
+				<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> {{ student.netId }} </a> </li>
+			{% endfor %}
+			</ul>
+		  {% else %}
+			<p>No students are registered yet.</p>
+		  {% endif %}
 
 </body>
 </html>
