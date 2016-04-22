@@ -45,7 +45,7 @@ class UpdateStudentListView(generic.ListView):
 
     def get_queryset(self):
         return select(['Student'], ['netId', 'name'], '')
-
+        
 
 class DeleteStudentListView(generic.ListView):
     template_name = 'groupr_app/deletestudentlist.html'
