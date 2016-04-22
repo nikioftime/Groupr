@@ -62,8 +62,6 @@ def searchByDesiredLanguage (myId):
 	cursor.execute(search_query);
 	resultQuery = "select * from " + viewName;
 	result = cursor.execute(resultQuery);
-	cursor = connection.cursor();
-	cursor.execute(drop_query);
 
 	columns = [col[0] for col in cursor.description]
 	return [
@@ -78,11 +76,19 @@ insertDesiredLanguage ('jackma', 'java,python,c++');
 deleteDesiredLanguage ('jackma', 'java');
 """
 
+<<<<<<< 6f3f34b4c315382ff62b3638825e7d04b07f4fee
 # insertDesiredLanguage ('larry', 'assembly');
 
 # #Test search by language desired
 # result = searchByDesiredLanguage ('larry');
 # print (result);
+=======
+insertDesiredLanguage ('larry', 'assembly');
+
+#Test search by language desired
+result = searchByDesiredLanguage ('larry');
+print (result);
+>>>>>>> add return value
 
 """
 IF EXISTS(select * FROM sys.views where name = '" + viewName + "')" + " drop view " + viewName;
