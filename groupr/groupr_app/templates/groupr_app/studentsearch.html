@@ -1,0 +1,112 @@
+<!--<form action="/groupr/query_student/" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% if students %}
+Students:
+	<ul>
+	{% for student in students %}
+		<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> - {{ student.netId }} - {{ student.yearInSchool }}</li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>Select a year from above.</p>
+{% endif %}-->
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Groupr</title>
+<meta charset="utf-8">
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet">
+<script src="/static/groupr_app/js/jquery-1.8.3.min.js"></script>
+<script src="/static/groupr_app/css/5grid/init.js?use=mobile,desktop,1200px,1000px&amp;mobileUI=1&amp;mobileUI.theme=none"></script>
+<noscript>
+<link rel="stylesheet" href="/static/groupr_app/css/5grid/core.css">
+<link rel="stylesheet" href="/static/groupr_app/css/5grid/core-desktop.css">
+<link rel="stylesheet" href="/static/groupr_app/css/5grid/core-1200px.css">
+<link rel="stylesheet" href="/static/groupr_app/css/5grid/core-noscript.css">
+<link rel="stylesheet" href="/static/groupr_app/css/style.css">
+<link rel="stylesheet" href="/static/groupr_app/css/style-desktop.css">
+<link rel="stylesheet" href="/static/groupr_app/css/style-1200px.css">
+</noscript>
+</head>
+<body class="left-sidebar">
+<div id="wrapper">
+  <div id="content" class="mobileUI-main-content">
+    <div id="content-inner">
+      <article class="is-post is-post-excerpt">
+        <header>
+          <h2><a href="{% url 'groupr:index' %}">Welcome to Groupr</a></h2>
+          <span class="byline">A better way to find and make groups for your next class project!</span> </header>
+
+        <!--<form action="/groupr/query_student/" method="post">
+            <input type='hidden' name='csrfmiddlewaretoken' value='sAW14BBQEeEcm0SgMEWpgxMfNGc4pbmI' />
+            <p><label for="id_yearInSchool">Year In School:</label> <select id="id_yearInSchool" name="yearInSchool">
+                <option value="freshman" selected="selected">Freshman</option>
+                <option value="sophomore">Sophomore</option>
+                <option value="junior">Junior</option>
+                <option value="senior">Senior</option>
+                <option value="grad">Graduate</option>
+                <option value="other">Other</option>
+            </select></p>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <br><br>
+        <p>Students:</p>
+	    <ul>
+		    <li> <a href="/groupr/update_student/granger2/"><b>hermione granger</b></a> - granger2 - freshman</li>
+		    <li> <a href="/groupr/update_student/longbot2/"><b>neville longbottom</b></a> - longbot2 - freshman</li>
+		    <li> <a href="/groupr/update_student/weasley9/"><b>ron weasley</b></a> - weasley9 - freshman</li>
+		    <li> <a href="/groupr/update_student/fn2187/"><b>finn ???</b></a> - fn2187 - freshman</li>
+	    </ul>-->
+
+		  <form action="/groupr/student_search/" method="post">
+    		{% csrf_token %}
+    		{{ form.as_p }}
+    		<input type="submit" value="Submit" />
+		  </form>
+
+			{% if students %}
+			Students:
+		  	<ul>
+			{% for student in students %}
+				<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> - {{ student.netId }} - {{ student.yearInSchool }}</li>
+			{% endfor %}
+			</ul>
+			{% else %}
+				<p>Select a year from above.</p>
+			{% endif %}
+
+          <!--Ignore these breaks, this is dumb, but the format was a bit weird for this page.  I'll figure it out eventually.-->
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+      </article>
+
+    </div>
+  </div>
+  <div id="sidebar">
+    <div id="logo">
+      <h1 class="mobileUI-site-name">GROUPR</h1>
+    </div>
+    <nav id="nav" class="mobileUI-site-nav">
+      <ul>
+        <li><a href="{% url 'groupr:index' %}">Home</a></li>
+        <li class="current_page_item"><a href="{% url 'groupr:student_page' %}">Students</a></li>
+        <li><a href="{% url 'groupr:instructor_page' %}">Instructors</a></li>
+      </ul>
+    </nav>
+
+
+
+
+    <div id="copyright">
+    </div>
+  </div>
+</div>
+</body>
+</html>
