@@ -8,6 +8,7 @@ TABLE_FIELDS = {	"Available" : ['netId', 'day', 'start', 'end'],
 					"Languages" : ['name'],
 					"LanguagesDesired" : ['languageName', 'netId', 'proficiency'],
 					"LanguagesKnown" : ['languageName', 'netId', 'proficiency'],
+					"OptimalPartOf" : ['groupId', 'netId'],
 					"PartOf" : ['groupId', 'netId'],
 					"Preferred" : ['netId', 'day', 'start', 'end'],
 					"Project" : ['projectId', 'groupId', 'summary', 'name'],
@@ -97,7 +98,7 @@ def select_query(tables, fields, conditions):
 
 def insert(table, values):
 	query = insert_query(table, values)
-	# print(query)
+	print(query)
 	if query is None:
 		return 
 	cursor = connection.cursor()

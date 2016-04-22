@@ -56,70 +56,69 @@ class DeleteStudentListView(generic.ListView):
 
 
 def insert_student(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = StudentForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
+	# if this is a POST request we need to process the form data
+	if request.method == 'POST':
+		# create a form instance and populate it with data from the request:
+		form = StudentForm(request.POST)
+		# check whether it's valid:
+		if form.is_valid():
 
-            # insert student into db
-            student_values = {}
-            for key in TABLE_FIELDS['Student']:
-                if form.cleaned_data[key]:
-                    student_values[key] = form.cleaned_data[key].lower()
-            insert('Student', student_values)
+			# insert student into db
+			student_values = {}
+			for key in TABLE_FIELDS['Student']:
+				if form.cleaned_data[key]:
+					student_values[key] = form.cleaned_data[key].lower()
+			insert('Student', student_values)
 
-            # insert known skills
-            if form.cleaned_data['skillsKnown']:
-                known_skills = form.cleaned_data['skillsKnown'].lower().replace(', ', ',').split(',')
-                for skill in known_skills:
-                    insert('Skills', {'name': skill})
-                    insert('SkillsKnown', {'netId': student_values['netId'], 'skillName': skill})
+			# insert known skills
+			if form.cleaned_data['skillsKnown']:
+				known_skills = form.cleaned_data['skillsKnown'].lower().replace(', ', ',').split(',')
+				for skill in known_skills:
+					insert('Skills', {'name': skill})
+					insert('SkillsKnown', {'netId' : student_values['netId'], 'skillName' : skill})
 
-            # insert desired skills
-            if form.cleaned_data['skillsDesired']:
-                desired_skills = form.cleaned_data['skillsDesired'].lower().replace(', ', ',').split(',')
-                for skill in desired_skills:
-                    insert('Skills', {'name': skill})
-                    insert('SkillsDesired', {'netId': student_values['netId'], 'skillName': skill})
+			#insert desired skills
+			if form.cleaned_data['skillsDesired']:
+				desired_skills = form.cleaned_data['skillsDesired'].lower().replace(', ', ',').split(',')
+				for skill in desired_skills:
+					insert('Skills', {'name': skill})
+					insert('SkillsDesired', {'netId' : student_values['netId'], 'skillName' : skill})
 
-            # insert known languages
-            if form.cleaned_data['langsKnown']:
-                known_langs = form.cleaned_data['langsKnown'].lower().replace(', ', ',').split(',')
-                for lang in known_langs:
-                    insert('Languages', {'name': lang})
-                    insert('LanguagesKnown', {'netId': student_values['netId'], 'languageName': lang})
+			#insert known languages
+			if form.cleaned_data['langsKnown']:
+				known_langs = form.cleaned_data['langsKnown'].lower().replace(', ', ',').split(',')
+				for lang in known_langs:
+					insert('Languages', {'name' : lang})
+					insert('LanguagesKnown', {'netId' : student_values['netId'], 'languageName' : lang})
 
-            # insert desired languages
-            if form.cleaned_data['langsDesired']:
-                desired_langs = form.cleaned_data['langsDesired'].lower().replace(', ', ',').split(',')
-                for lang in desired_langs:
-                    insert('Languages', {'name': lang})
-                    insert('LanguagesDesired', {'netId': student_values['netId'], 'languageName': lang})
+			#insert desired languages
+			if form.cleaned_data['langsDesired']:
+				desired_langs = form.cleaned_data['langsDesired'].lower().replace(', ', ',').split(',')
+				for lang in desired_langs:
+					insert('Languages', {'name' : lang})
+					insert('LanguagesDesired', {'netId' : student_values['netId'], 'languageName' : lang})
 
-            # insert group
-            insert('Groups', {'name': student_values['netId'], 'numberOfMembers': 1})
-            group = select(['Groups'], ['id'], "name=\"{0}\"".format(student_values['netId']))
-            group_id = group[0]['id']
-            insert('PartOf', {'groupId': group_id, 'netId': student_values['netId']})
+			#insert group
+			# insert('Groups', {'name' : student_values['netId'], 'numberOfMembers' : 1})
+			# group = select(['Groups'], ['id'], "name=\"{0}\"".format(student_values['netId']))
+			# group_id = group[0]['id']
+			# insert('PartOf', {'groupId': group_id, 'netId': student_values['netId']})
 
-            # insert projectId
-            if form.cleaned_data['projectIdeaName'] or form.cleaned_data['projectIdeaSummary']:
-                insert('Project', {'groupId': group_id, 'name': form.cleaned_data['projectIdeaName'],
-                                   'summary': form.cleaned_data['projectIdeaSummary']})
-                project = select(['Project'], ['projectId'], "groupId={0}".format(group_id))
-                project_id = project[0]['projectId']
-                insert('Idea', {'projectId': project_id, 'netId': student_values['netId']})
+			#insert projectId
+			if form.cleaned_data['projectIdeaName'] or form.cleaned_data['projectIdeaSummary']:
+				insert('Project', {'groupId' : group_id, 'name' : form.cleaned_data['projectIdeaName'], 
+					'summary' : form.cleaned_data['projectIdeaSummary']})
+				project = select(['Project'], ['projectId'], "groupId={0}".format(group_id))
+				project_id = project[0]['projectId']
+				insert('Idea', {'projectId' : project_id, 'netId' : student_values['netId']})
 
-            return HttpResponseRedirect('/groupr/add_student/')
+			return HttpResponseRedirect('/groupr/add_student/')
 
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = StudentForm()
+	# if a GET (or any other method) we'll create a blank form
+	else:
+		form = StudentForm()
 
-    return render(request, 'groupr_app/addstudent.html', {'form': form})
-
+	return render(request, 'groupr_app/addstudent.html', {'form': form})
 
 def update_student(request, netId):
     netId_match = "netId=\"{0}\"".format(netId)
@@ -212,7 +211,7 @@ def update_student(request, netId):
                     if project:
                         project_id = project[0]['projectId']
                         updated_project_data = {}
-                        if 'projectIdeaName' in form.changed_data:
+                       git  if 'projectIdeaName' in form.changed_data:
                             updated_project_data['name'] = form.cleaned_data['projectIdeaName']
                         if 'projectIdeaSummary' in form.changed_data:
                             updated_project_data['summary'] = form.cleaned_data['projectIdeaSummary']
