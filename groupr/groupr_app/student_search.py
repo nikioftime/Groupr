@@ -1,6 +1,6 @@
 import sys
 import MySQLdb
-from queries import *
+from .queries import *
 connection = MySQLdb.connect(user='groupr', passwd='grouprsp16', db='grouprsp_cs411');
 
 
@@ -56,11 +56,14 @@ def searchByDesiredLanguage (myId):
 	drop_query = "DROP VIEW IF EXISTS " + viewName
 	cursor = connection.cursor();
 	cursor.execute(drop_query);
-	search_query = "create view " + viewName + " as SELECT netId FROM languagesknown WHERE languageName in (SELECT languageName FROM languagesdesired where netId = " + "'" + myId + "'" + ") GROUP BY netId ORDER BY COUNT(*) DESC";
+	search_query = "create view " + viewName + " as SELECT netId FROM LanguagesKnown WHERE languageName in (SELECT languageName FROM LanguagesDesired where netId = " + "'" + myId + "'" + ") GROUP BY netId ORDER BY COUNT(*) DESC";
+	print(search_query)
 	cursor = connection.cursor();
 	cursor.execute(search_query);
 	resultQuery = "select * from " + viewName;
 	result = cursor.execute(resultQuery);
+	cursor = connection.cursor();
+	cursor.execute(drop_query);
 
 	columns = [col[0] for col in cursor.description]
 	return [
@@ -75,11 +78,11 @@ insertDesiredLanguage ('jackma', 'java,python,c++');
 deleteDesiredLanguage ('jackma', 'java');
 """
 
-insertDesiredLanguage ('larry', 'assembly');
+# insertDesiredLanguage ('larry', 'assembly');
 
-#Test search by language desired
-result = searchByDesiredLanguage ('larry');
-print (result);
+# #Test search by language desired
+# result = searchByDesiredLanguage ('larry');
+# print (result);
 
 """
 IF EXISTS(select * FROM sys.views where name = '" + viewName + "')" + " drop view " + viewName;

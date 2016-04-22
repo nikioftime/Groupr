@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import generic
 
-from .forms import StudentForm, SimpleQueryByYear
+from .forms import StudentForm, SimpleQueryByYear, StudentSearch
 from .queries import insert, update, delete, select, TABLE_FIELDS
+from .student_search import searchByDesiredLanguage
 
 class UpdateStudentListView(generic.ListView):
 	template_name = 'groupr_app/updatestudentlist.html'
@@ -60,7 +61,7 @@ def insert_student(request):
 				desired_langs = form.cleaned_data['langsDesired'].lower().replace(', ', ',').split(',')
 				for lang in desired_langs:
 					insert('Languages', {'name' : lang})
-					insert('LanguagesKnown', {'netId' : student_values['netId'], 'languageName' : lang})
+					insert('LanguagesDesired', {'netId' : student_values['netId'], 'languageName' : lang})
 
 			#insert group
 			insert('Groups', {'name' : student_values['netId'], 'numberOfMembers' : 1})
@@ -140,6 +141,7 @@ def update_student(request, netId):
 
 				# insert known skills
 				if 'skillsKnown' in form.changed_data:
+					delete('SkillsKnown', netId_match)
 					known_skills = form.cleaned_data['skillsKnown'].lower().replace(', ', ',').split(',')
 					for skill in known_skills:
 						insert('Skills', {'name': skill})
@@ -147,6 +149,7 @@ def update_student(request, netId):
 
 				#insert desired skills
 				if 'skillsDesired' in form.changed_data:
+					delete('SkillsDesired', netId_match)
 					desired_skills = form.cleaned_data['skillsDesired'].lower().replace(', ', ',').split(',')
 					for skill in desired_skills:
 						insert('Skills', {'name': skill})
@@ -154,6 +157,7 @@ def update_student(request, netId):
 
 				#insert known languages
 				if 'langsKnown' in form.changed_data:
+					delete('LanguagesKnown', netId_match)
 					known_langs = form.cleaned_data['langsKnown'].lower().replace(', ', ',').split(',')
 					for lang in known_langs:
 						insert('Languages', {'name' : lang})
@@ -161,10 +165,11 @@ def update_student(request, netId):
 
 				#insert desired languages
 				if 'langsDesired' in form.changed_data:
+					delete('LanguagesDesired', netId_match)
 					desired_langs = form.cleaned_data['langsDesired'].lower().replace(', ', ',').split(',')
 					for lang in desired_langs:
 						insert('Languages', {'name' : lang})
-						insert('LanguagesKnown', {'netId' : updated_student_data['netId'], 'languageName' : lang})
+						insert('LanguagesDesired', {'netId' : updated_student_data['netId'], 'languageName' : lang})
 
 				if 'projectIdeaName' in form.changed_data or 'projectIdeaSummary' in form.changed_data:
 					project = select(['Idea'], ['projectId'], netId_match)
@@ -230,6 +235,21 @@ def query_student(request):
 		form = SimpleQueryByYear()
 
 	return render(request, 'groupr_app/querystudentbyyear.html', {'form': form, 'students': students})
+
+def student_search(request):
+	students = {}
+
+	if request.method == 'POST':
+		print(request.POST)
+		form = StudentSearch(request.POST)
+		print(form)
+		if form.is_valid:
+			netId = form.cleaned_data['netId']
+			students = searchByDesiredLanguage(netId)
+	else:
+		form = StudentSearch()
+
+	return render(request, 'groupr_app/studentsearch.html', {'form': form, 'students': students})
 
 def index(request):
 	return render(request, 'groupr_app/index.html')
