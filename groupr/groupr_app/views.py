@@ -21,10 +21,10 @@ class group_list(generic.ListView):
         group_dicts = select(['Groups'], ['id'], '')
         group_info = []  # Returns list of group, [list of students] pairs
         for tuple in group_dicts:
-            student_list = []
+            #student_list = []
             group_member = select(['PartOf'], ['netId'], "PartOf.groupId = {0}".format(tuple['id']))  # ???
-            student_list.append(group_member)
-            group_info.append([tuple['id'], student_list])
+            #student_list.append(group_member)
+            group_info.append([tuple['id'], group_member])
             #print(group_info)
             #if group_member:
             #    print(group_member)
