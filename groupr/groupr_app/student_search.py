@@ -1,8 +1,6 @@
 import sys
-import MySQLdb
 from .queries import *
 from django.db import connection
-#connection = MySQLdb.connect(user='groupr', passwd='grouprsp16', db='grouprsp_cs411');
 
 
 
@@ -73,9 +71,6 @@ def searchByDesiredLanguage (myId):
 	cursor = connection.cursor();
 	cursor.execute(drop_query);
 	return return_dict
-
-
-
 
 #Test insert and delete
 """
