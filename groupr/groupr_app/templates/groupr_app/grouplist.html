@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Group List</title>
+</head>
+<body>
+
+{% if groups %}
+    Groups:
+    <ul>
+        {% for group in groups %}
+            <li>
+                <a href ="{% url 'groupr:group_list' %}">Group Id: {{ group.0 }}</a>
+                <ul>
+                    {% for group.1 in group %}
+                    <!--<li>{{group.1}}</li>-->
+                        {% for student in group.1 %}
+                            <li>Student netId: {{student}}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No groups have been formed yet.</p>
+{% endif %}
+
+</body>
+</html>

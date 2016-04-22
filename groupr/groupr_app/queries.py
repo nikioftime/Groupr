@@ -119,7 +119,7 @@ def select(tables, fields, conditions):
 	query = select_query(tables, fields, conditions)
 	if query is None:
 		return
-	print(query)
+	#print(query)
 	cursor = connection.cursor()
 	cursor.execute(query)
 

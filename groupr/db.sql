@@ -518,6 +518,7 @@ CREATE TABLE `partof` (
 
 LOCK TABLES `partof` WRITE;
 /*!40000 ALTER TABLE `partof` DISABLE KEYS */;
+INSERT INTO `partof` VALUES (26,'rogers1'),(26,'tturner1');
 /*!40000 ALTER TABLE `partof` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -842,4 +843,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-22 10:21:48
+-- Dump completed on 2016-04-22 14:10:31
