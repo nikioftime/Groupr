@@ -455,7 +455,9 @@ CREATE TABLE `languagesknown` (
   `languageName` varchar(20) NOT NULL DEFAULT '',
   `netId` varchar(10) NOT NULL DEFAULT '',
   `proficiency` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`languageName`,`netId`)
+  PRIMARY KEY (`languageName`,`netId`),
+  KEY `netId` (`netId`),
+  CONSTRAINT `languagesknown_ibfk_1` FOREIGN KEY (`netId`) REFERENCES `student` (`netId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -503,7 +505,10 @@ DROP TABLE IF EXISTS `partof`;
 CREATE TABLE `partof` (
   `groupId` int(11) NOT NULL DEFAULT '0',
   `netId` varchar(10) NOT NULL DEFAULT '',
-  PRIMARY KEY (`groupId`,`netId`)
+  PRIMARY KEY (`groupId`,`netId`),
+  KEY `netId` (`netId`),
+  CONSTRAINT `partof_ibfk_1` FOREIGN KEY (`netId`) REFERENCES `student` (`netId`) ON DELETE CASCADE,
+  CONSTRAINT `partof_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -513,7 +518,6 @@ CREATE TABLE `partof` (
 
 LOCK TABLES `partof` WRITE;
 /*!40000 ALTER TABLE `partof` DISABLE KEYS */;
-INSERT INTO `partof` VALUES (5,'granger2'),(11,'longbot2'),(13,'weasley9'),(18,'skywalk3'),(19,'hasolo2'),(20,'fn2187'),(21,'pdamero2'),(22,'rey2'),(24,'msmith1'),(25,'bcharles1'),(26,'agordon1'),(27,'flord1'),(28,'nallen1'),(29,'mdonalds1'),(30,'jrhodes1'),(31,'awang1'),(32,'rogers1'),(33,'sacks1'),(34,'chapman2'),(35,'lundgren1'),(36,'ghosh1'),(37,'schen1'),(38,'bjorklund1'),(39,'rlanster1'),(40,'aharper1'),(41,'amellon1'),(42,'tbales1'),(43,'handers1'),(44,'jpeters1'),(45,'jlee1'),(46,'ysmith1'),(47,'tsorrel1'),(48,'rlongho1'),(49,'kblue1'),(50,'dthomps1'),(51,'rwales1'),(52,'cfafnir'),(53,'ahardley1'),(54,'mcooper1'),(55,'rmiller1'),(56,'gmorgan1'),(57,'amiller1'),(58,'jdolan1'),(59,'phuey1'),(60,'pcampbe1'),(61,'tturner1'),(62,'iwellin1'),(63,'kbaker1'),(64,'bsanders1'),(65,'jlong1'),(66,'myoung1'),(67,'kmellon1'),(68,'hdillan1'),(69,'kjacobs1'),(70,'npeters1'),(71,'lcarters1'),(72,'bmiller1'),(73,'mbovert1'),(74,'wgallow1'),(75,'crobin1'),(76,'mling1'),(77,'mthomp1'),(78,'tdolan1'),(79,'jjacobs1'),(80,'mjianga1'),(81,'rprince1'),(82,'rwells1');
 /*!40000 ALTER TABLE `partof` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -613,7 +617,8 @@ DROP TABLE IF EXISTS `skillsdesired`;
 CREATE TABLE `skillsdesired` (
   `netId` varchar(10) NOT NULL DEFAULT '',
   `skillName` varchar(20) NOT NULL DEFAULT '',
-  PRIMARY KEY (`netId`,`skillName`)
+  PRIMARY KEY (`netId`,`skillName`),
+  CONSTRAINT `skillsdesired_ibfk_1` FOREIGN KEY (`netId`) REFERENCES `student` (`netId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -636,7 +641,8 @@ DROP TABLE IF EXISTS `skillsknown`;
 CREATE TABLE `skillsknown` (
   `netId` varchar(10) NOT NULL DEFAULT '',
   `skillName` varchar(20) NOT NULL DEFAULT '',
-  PRIMARY KEY (`netId`,`skillName`)
+  PRIMARY KEY (`netId`,`skillName`),
+  CONSTRAINT `skillsknown_ibfk_1` FOREIGN KEY (`netId`) REFERENCES `student` (`netId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -687,7 +693,10 @@ DROP TABLE IF EXISTS `suggested`;
 CREATE TABLE `suggested` (
   `groupId` int(11) NOT NULL DEFAULT '0',
   `netId` varchar(10) NOT NULL DEFAULT '',
-  PRIMARY KEY (`groupId`,`netId`)
+  PRIMARY KEY (`groupId`,`netId`),
+  KEY `netId` (`netId`),
+  CONSTRAINT `suggested_ibfk_1` FOREIGN KEY (`netId`) REFERENCES `student` (`netId`) ON DELETE CASCADE,
+  CONSTRAINT `suggested_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -810,4 +819,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-22  4:09:11
+-- Dump completed on 2016-04-22  4:49:15
