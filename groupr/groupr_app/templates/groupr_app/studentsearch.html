@@ -75,7 +75,7 @@ Students:
 			Students:
 		  	<ul>
 			{% for student in students %}
-				<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> - {{ student.netId }} - {{ student.yearInSchool }}</li>
+				<li> <a href="{% url 'groupr:update_student' student.netId %}">{{ student.netId }}</a></li>
 			{% endfor %}
 			</ul>
 			{% else %}

@@ -1,7 +1,8 @@
 import sys
 import MySQLdb
 from .queries import *
-connection = MySQLdb.connect(user='groupr', passwd='grouprsp16', db='grouprsp_cs411');
+from django.db import connection
+#connection = MySQLdb.connect(user='groupr', passwd='grouprsp16', db='grouprsp_cs411');
 
 
 
@@ -62,14 +63,18 @@ def searchByDesiredLanguage (myId):
 	cursor.execute(search_query);
 	resultQuery = "select * from " + viewName;
 	result = cursor.execute(resultQuery);
-	cursor = connection.cursor();
-	cursor.execute(drop_query);
 
 	columns = [col[0] for col in cursor.description]
-	return [
+	return_dict = [
     	dict(zip(columns, row))
 		for row in cursor.fetchall()
 	]
+
+	cursor = connection.cursor();
+	cursor.execute(drop_query);
+	return return_dict
+
+
 
 
 #Test insert and delete
