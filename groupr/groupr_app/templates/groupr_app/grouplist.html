@@ -11,7 +11,7 @@
     <ul>
         {% for group in groups %}
             <li>
-                <a href ="{% url 'groupr:group_list' %}">{{ group[0] }}</a>
+                <a href ="{% url 'groupr:group_list' %}">{{ group.0 }}</a>
             </li>
         {% endfor %}
     </ul>
