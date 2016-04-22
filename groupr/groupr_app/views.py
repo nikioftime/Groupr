@@ -9,7 +9,7 @@ from .student_skill import searchByDesiredSkill
 
 
 class group_list(generic.ListView):
-    template_name = "grouplist.html"
+    template_name = "groupr_app/grouplist.html"
     context_object_name = 'groups'
 
     # get_queryset returns the data that will be used as the context object
@@ -24,11 +24,14 @@ class group_list(generic.ListView):
         # student_list = []
         for tuple in group_dicts:
             student_list = []
-            group_member = select(['PartOf'], ['netId'], "WHERE PartOf.groupId = {0}".format(tuple['id']))  # ???
+            group_member = select(['PartOf'], ['netId'], "PartOf.groupId = {0}".format(tuple['id']))  # ???
             student_list.append(group_member)
             group_info.append([tuple['id'], student_list])
+        #template = loader.get_template('groupr_app/grouplist.html')
+        #context = {
+        #    'groups': group_info,
+        #}
         return group_info
-
 
 # Displays the group members of a specific group
 """class GroupManagement(generic.ListView):
