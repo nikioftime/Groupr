@@ -13,8 +13,9 @@
             <li>
                 <a href ="{% url 'groupr:group_list' %}">{{ group.0 }}</a>
                 <ul>
-                    {% for group.1 in group %}
-                        {% for student in group.1 %}
+                    {% for group.1.0 in group %}
+                    <li>{{group.1}}</li>
+                        {% for student in group.1.0 %}
                             <li>{{student}}</li>
                         {% endfor %}
                     {% endfor %}

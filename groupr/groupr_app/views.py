@@ -25,8 +25,9 @@ class group_list(generic.ListView):
             group_member = select(['PartOf'], ['netId'], "PartOf.groupId = {0}".format(tuple['id']))  # ???
             student_list.append(group_member)
             group_info.append([tuple['id'], student_list])
-            print(group_info)
-            #print(student_list)
+            #print(group_info)
+            #if group_member:
+            #    print(group_member)
         return group_info
 
 # Displays the group members of a specific group
