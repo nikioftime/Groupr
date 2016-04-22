@@ -1,8 +1,20 @@
-<!--<form action="/groupr/add_student/" method="post">
+<!--<form action="/groupr/query_student/" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
-</form>-->
+</form>
+
+{% if students %}
+Students:
+	<ul>
+	{% for student in students %}
+		<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> - {{ student.netId }} - {{ student.yearInSchool }}</li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>Select a year from above.</p>
+{% endif %}-->
+
 
 <!DOCTYPE HTML>
 <html>
@@ -31,40 +43,53 @@
           <h2><a href="{% url 'groupr:index' %}">Welcome to Groupr</a></h2>
           <span class="byline">A better way to find and make groups for your next class project!</span> </header>
 
-          <!--
-        <form action="/groupr/add_student/" method="post">
+        <!--<form action="/groupr/query_student/" method="post">
             <input type='hidden' name='csrfmiddlewaretoken' value='sAW14BBQEeEcm0SgMEWpgxMfNGc4pbmI' />
-            <p><label for="id_name">Student name:</label> <input id="id_name" maxlength="50" name="name" type="text" /></p>
-            <p><label for="id_netId">netId:</label> <input id="id_netId" maxlength="10" name="netId" type="text" /></p>
-            <p><label for="id_bio">bio:</label> <textarea cols="40" id="id_bio" name="bio" rows="10">
-            </textarea></p>
-            <p><label for="id_major">Major:</label> <input id="id_major" name="major" type="text" /></p>
             <p><label for="id_yearInSchool">Year In School:</label> <select id="id_yearInSchool" name="yearInSchool">
-            <option value="freshman">Freshman</option>
-            <option value="sophomore">Sophomore</option>
-            <option value="junior">Junior</option>
-            <option value="senior">Senior</option>
-            <option value="grad">Graduate</option>
-            <option value="other">Other</option>
+                <option value="freshman" selected="selected">Freshman</option>
+                <option value="sophomore">Sophomore</option>
+                <option value="junior">Junior</option>
+                <option value="senior">Senior</option>
+                <option value="grad">Graduate</option>
+                <option value="other">Other</option>
             </select></p>
-            <p><label for="id_skillsKnown">Known skills (separated by spaces):</label> <input id="id_skillsKnown" name="skillsKnown" type="text" /></p>
-            <p><label for="id_skillsDesired">Skills desired (separated by spaces):</label> <input id="id_skillsDesired" name="skillsDesired" type="text" /></p>
-            <p><label for="id_langsKnown">Known languages (separated by spaces):</label> <input id="id_langsKnown" name="langsKnown" type="text" /></p>
-            <p><label for="id_langsDesired">Languages desired (separated by spaces):</label> <input id="id_langsDesired" name="langsDesired" type="text" /></p>
-            <p><label for="id_projectIdeaName">Project idea: Project name:</label> <input id="id_projectIdeaName" name="projectIdeaName" type="text" /></p>
-            <p><label for="id_projectIdeaSummary">Project idea: Project summary:</label> <textarea cols="40" id="id_projectIdeaSummary" name="projectIdeaSummary" rows="10">
-            </textarea></p>
             <input type="submit" value="Submit" />
         </form>
-        -->
 
-        <h3>Add student</h3>
+        <br><br>
+        <p>Students:</p>
+	    <ul>
+		    <li> <a href="/groupr/update_student/granger2/"><b>hermione granger</b></a> - granger2 - freshman</li>
+		    <li> <a href="/groupr/update_student/longbot2/"><b>neville longbottom</b></a> - longbot2 - freshman</li>
+		    <li> <a href="/groupr/update_student/weasley9/"><b>ron weasley</b></a> - weasley9 - freshman</li>
+		    <li> <a href="/groupr/update_student/fn2187/"><b>finn ???</b></a> - fn2187 - freshman</li>
+	    </ul>-->
 
-          <form action="/groupr/add_student/" method="post">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <input type="submit" value="Submit" />
-          </form>
+      <h3>Search for students based on skills</h3>
+
+		  <form action="/groupr/student_search_skill/" method="post">
+    		{% csrf_token %}
+    		{{ form.as_p }}
+    		<input type="submit" value="Submit" />
+		  </form>
+
+			{% if students %}
+			Students (best matches first):
+		  	<ul>
+			{% for student in students %}
+				<li> <a href="{% url 'groupr:update_student' student.netId %}">{{ student.netId }}</a></li>
+			{% endfor %}
+			</ul>
+			{% else %}
+				{% if students == None %}
+          <p>No matches found. To find matches, add desired skills to <a href="{% url 'groupr:update_student' netId %}">your profile</a></p>
+        {% else %}
+          <p>Enter your netId above.</p>
+        {% endif %}
+			{% endif %}
+
+          <!--Ignore these breaks, this is dumb, but the format was a bit weird for this page.  I'll figure it out eventually.-->
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
       </article>
 
@@ -90,3 +115,4 @@
   </div>
 </div>
 </body>
+</html>

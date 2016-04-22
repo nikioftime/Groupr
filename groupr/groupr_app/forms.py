@@ -18,3 +18,7 @@ class StudentForm(forms.Form):
 
 class SimpleQueryByYear(forms.Form):
 	yearInSchool = forms.ChoiceField(label='Year In School', choices=yearsInSchool)
+
+class StudentSearch(forms.Form):
+	netId = forms.CharField(label='Enter your netId to find optimally matching teammates!', max_length=10)
+		

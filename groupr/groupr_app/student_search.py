@@ -1,8 +1,6 @@
-import MySQLdb
-from queries import *
-connection = MySQLdb.connect(user='groupr', passwd='grouprsp16', db='grouprsp_cs411');
-
-
+import sys
+from .queries import *
+from django.db import connection
 
 #input desired language
 #(languageStr: languages seperated by comma)
@@ -49,25 +47,52 @@ def deleteKnownLanguage (netID, languageStr):
 
 #Search based on desired languages then return list of netIDs
 #create a view named "myId__desired_people" 
+#return dict representing the result view
 def searchByDesiredLanguage (myId):
-	search_query = "create view " + myId + "_desired_people "  + "as SELECT netId FROM languagesknown WHERE languageName in (SELECT languageName FROM languagesdesired where netId = " + "'" + myId + "'" + ") GROUP BY netId ORDER BY COUNT(*) DESC";
+	viewName = myId + "_desired_people";
+	drop_query = "DROP VIEW IF EXISTS " + viewName
+	cursor = connection.cursor();
+	cursor.execute(drop_query);
+	search_query = "create view " + viewName + " as SELECT netId FROM LanguagesKnown WHERE languageName in (SELECT languageName FROM LanguagesDesired where netId = " + "'" + myId + "'" + ") GROUP BY netId ORDER BY COUNT(*) DESC";
+	print(search_query)
 	cursor = connection.cursor();
 	cursor.execute(search_query);
+	resultQuery = "select * from " + viewName;
+	result = cursor.execute(resultQuery);
 
+	columns = [col[0] for col in cursor.description]
+	return_dict = [
+    	dict(zip(columns, row))
+		for row in cursor.fetchall()
+	]
 
-
-#Test search by language desired
-"""
-searchByDesiredLanguage ('jackma');
-
-"""
+	cursor = connection.cursor();
+	cursor.execute(drop_query);
+	return return_dict
 
 #Test insert and delete
 """
 insertDesiredLanguage ('jackma', 'java,python,c++');
 deleteDesiredLanguage ('jackma', 'java');
-insertKnownLanguage ('larry', 'java,python,c++');
-deleteKnownLanguage ('larry', 'java');
 """
 
+# insertDesiredLanguage ('larry', 'assembly');
+
+# #Test search by language desired
+# result = searchByDesiredLanguage ('larry');
+# print (result);
+
+"""
+IF EXISTS(select * FROM sys.views where name = '" + viewName + "')" + " drop view " + viewName;
+"""
+
+# insertDesiredLanguage ('larry', 'assembly');
+
+# #Test search by language desired
+# result = searchByDesiredLanguage ('larry');
+# print (result);
+
+"""
+IF EXISTS(select * FROM sys.views where name = '" + viewName + "')" + " drop view " + viewName;
+"""
 
