@@ -214,7 +214,7 @@ def update_student(request, netId):
                     if project:
                         project_id = project[0]['projectId']
                         updated_project_data = {}
-                       git  if 'projectIdeaName' in form.changed_data:
+                        if 'projectIdeaName' in form.changed_data:
                             updated_project_data['name'] = form.cleaned_data['projectIdeaName']
                         if 'projectIdeaSummary' in form.changed_data:
                             updated_project_data['summary'] = form.cleaned_data['projectIdeaSummary']
