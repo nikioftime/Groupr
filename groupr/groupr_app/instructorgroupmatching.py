@@ -61,11 +61,11 @@ def teardown_values():
 	cursor.execute(query)
 
 def setup_views():
-	unsat_view_query = "create or replace view " + unsatisfied_groups_view + " as select id from groups where id in (select groupId from OptimalPartOf) and (select count(*) from OptimalPartOf where groupId=id) < {}".format(min_students)
+	unsat_view_query = "create or replace view " + unsatisfied_groups_view + " as select groupId from OptimalPartOf group by groupId having count(netId) < {}".format(min_students)
 	cursor = connection.cursor()
 	cursor.execute(unsat_view_query)
 
-	not_full_view_query = "create or replace view " + not_full_groups_view + " as select id from groups where id in (select groupId from OptimalPartOf) and (select count(*) from OptimalPartOf where groupId=id) < {}".format(max_students)
+	not_full_view_query = "create or replace view " + not_full_groups_view + " as select groupId from OptimalPartOf group by groupId having count(netId) < {}".format(max_students)
 	cursor = connection.cursor()
 	cursor.execute(not_full_view_query)
 
@@ -86,6 +86,17 @@ def unsatisfied_groups():
     	dict(zip(columns, row))
 		for row in cursor.fetchall()
 	]
+
+def count_unsatisfied_groups():
+	groups = "select count(*) as num from "+unsatisfied_groups_view
+	cursor = connection.cursor()
+	cursor.execute(groups)
+	columns = [col[0] for col in cursor.description]
+	ret = [
+    	dict(zip(columns, row))
+		for row in cursor.fetchall()
+	]
+	return ret[0]['num']
 
 def not_full_groups():
 	groups = "select * from "+not_full_groups_view
@@ -119,6 +130,7 @@ def lang_intersect(group_view, netId):
 
 
 def make_matches():
+	teardown_values()
 	setup_views()
 	students = get_students()
 	num_groups = number_of_groups(len(students), min_students, max_students)
@@ -143,18 +155,48 @@ def make_matches():
 	print(group_langs())
 	print(student['netId'])
 	print(lang_intersect(unsatisfied_groups_view, student['netId']))
+	print(count_unsatisfied_groups())
+
+	seen_netId = ""
 
 	while unsatisfied_groups() and students:
 		student = students.pop()
-		best_group = sorted(lang_intersect(unsatisfied_groups_view, student['netId']), key=itemgetter('langs')).pop()
-		insert('OptimalPartOf', {'groupId': best_group['groupId'], 'netId': student['netId']})
+		best_groups = sorted(lang_intersect(unsatisfied_groups_view, student['netId']), key=itemgetter('langs'))
+		if best_groups:
+			best_group = best_groups[-1]
+			print(best_groups)
+			print(best_group['groupId'])
+			insert('OptimalPartOf', {'groupId': best_group['groupId'], 'netId': student['netId']})
+			print(count_unsatisfied_groups())
+		else:
+			if student['netId'] == seen_netId:
+				while unsatisfied_groups() and students:
+					group = unsatisfied_groups()[0]
+					insert('OptimalPartOf', {'groupId': group['groupId'], 'netId': student['netId']})
+			else:		
+				students.insert(0, student)
+				seen_netId = student['netId']
+				
+
+	free_group = not_full_groups()
 
 	while students and not_full_groups():
 		student = students.pop()
-		best_group = sorted(lang_intersect(not_full_groups_view, student['netId']), key=itemgetter('langs')).pop()
-		insert('OptimalPartOf', {'groupId': best_group['groupId'], 'netId': student['netId']})
+		best_groups = sorted(lang_intersect(not_full_groups_view, student['netId']), key=itemgetter('langs'))
+		if best_groups:
+			best_group = best_groups[-1]
+			print(best_groups)
+			print(best_group['groupId'])
+			insert('OptimalPartOf', {'groupId': best_group['groupId'], 'netId': student['netId']})
+		else:
+			if student['netId'] == seen_netId:
+				while not_full_groups() and students:
+					group = not_full_groups()[0]
+					insert('OptimalPartOf', {'groupId': group['groupId'], 'netId': student['netId']})
+			else:		
+				students.insert(0, student)
+				seen_netId = student['netId']
 
-	print(students)
 
 def keep_assignment():
 	drop_partof = "delete from partof"
@@ -178,9 +220,4 @@ def discard_assignment():
 	# general assignment
 		#ties
 
-	# leftovers after all groups have minimum
-
-	
-teardown_values()
-make_matches()
-keep_assignment()
+	# leftovers after all groups have minimu

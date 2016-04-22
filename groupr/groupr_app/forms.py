@@ -21,4 +21,12 @@ class SimpleQueryByYear(forms.Form):
 
 class StudentSearch(forms.Form):
 	netId = forms.CharField(label='Enter your netId to find optimally matching teammates!', max_length=10)
+
+
+
+class InstructorDecision(forms.Form):
+	CHOICES=[('keep','Keep matching'),
+         	('rej','Discard matching')]
+
+	keep = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(), required=True)
 		

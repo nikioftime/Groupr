@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import generic
+from django.db import connection
+from operator import itemgetter
 
-from .forms import StudentForm, SimpleQueryByYear, StudentSearch
+from .forms import StudentForm, SimpleQueryByYear, StudentSearch, InstructorDecision
 from .queries import insert, update, delete, select, TABLE_FIELDS
 from .student_search import searchByDesiredLanguage
 from .student_skill import searchByDesiredSkill
+from .instructorgroupmatching import make_matches, keep_assignment, discard_assignment
 
 
 class group_list(generic.ListView):
@@ -328,6 +331,54 @@ def student_search_skill(request):
         form = StudentSearch()
 
     return render(request, 'groupr_app/studentsearchskill.html', {'form': form, 'students': students, 'netId': netId})
+
+
+def run_matching(request):
+	make_matches()
+	groups_query = "select * from groups where name LIKE 'optimal%'"
+	cursor = connection.cursor()
+	cursor.execute(groups_query)
+	columns = [col[0] for col in cursor.description]
+	groups = [
+    	dict(zip(columns, row))
+		for row in cursor.fetchall()
+	]
+
+	groups_query = "select * from optimalpartof"
+	cursor = connection.cursor()
+	cursor.execute(groups_query)
+	columns = [col[0] for col in cursor.description]
+	students = [
+    	dict(zip(columns, row))
+		for row in cursor.fetchall()
+	]
+
+	for group in groups:
+		group['students'] = [student for student in students if student['groupId'] == group['id']]
+
+	groups = sorted(groups, key=itemgetter('id'))
+
+	if request.method == 'POST':
+		print(request.POST)
+		form = InstructorDecision(request.POST)
+		print(form)
+		if form.is_valid:
+			keep = form.cleaned_data['keep']
+			if keep == 'keep':
+				keep_assignment()
+			else:
+				discard_assignment()
+		return HttpResponseRedirect('/groupr/instructor_page/')
+	else:
+		form = InstructorDecision(initial={'keep':'keep'})
+
+	return render(request, 'groupr_app/idealmatching.html', {'form': form, 'groups': groups})
+
+def clear_groups(request):
+	delete('Groups','')
+	delete('PartOf', '')
+	return HttpResponseRedirect('/groupr/instructor_page/')
+
 
 
 def index(request):
