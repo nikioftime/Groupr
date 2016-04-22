@@ -7,6 +7,25 @@ from .queries import insert, update, delete, select, TABLE_FIELDS
 from .student_search import searchByDesiredLanguage
 from .student_skill import searchByDesiredSkill
 
+class GroupList(generic.ListView):
+	template_name = "grouplist.html"
+	context_object_name = 'groups'
+
+	# get_queryset returns the data that will be used as the context object
+	# which is displayed on the page for ListViews
+	def get_queryset(self):
+		# Get list of all the dictionaries of groups, keys are columns, values are tuples
+		# For each group, get netIds of Students in partof
+		group_dict = []
+		group_dict = select(['Groups'], ['id'], '');
+		student_list = []
+
+
+class GroupManagement(generic.ListView):
+	template_name = "groupmanagement.html"
+	context_object_name = ''
+
+
 class UpdateStudentListView(generic.ListView):
 	template_name = 'groupr_app/updatestudentlist.html'
 	context_object_name = 'students'
