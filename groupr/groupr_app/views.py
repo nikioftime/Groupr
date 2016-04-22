@@ -257,6 +257,23 @@ def delete_student(request, netId):
 
     return HttpResponseRedirect('/groupr/delete_student/')
 
+def group_student(request, seekerNetId, foundNetId):
+    netId_match = "netId=\"{0}\"".format(seekerNetId)
+    foundNetId_match = "netId=\"{0}\"".format(foundNetId)
+    delete('PartOf', foundNetId_match)
+
+    groups = select(['PartOf'], [], netId_match)
+    if groups:
+        group_id = groups[0]['groupId']
+        insert('PartOf', {'groupId': group_id, 'netId': foundNetId})
+    else:
+        insert('Groups', {'name': seekerNetId, 'numberOfMembers': 1})
+        group = select(['Groups'], ['id'], netId_match)
+        group_id = group[0]['id']
+        insert('PartOf', {'groupId': group_id, 'netId': seekerNetId})
+        insert('PartOf', {'groupId': group_id, 'netId': foundNetId})
+
+    return HttpResponseRedirect('/groupr/group_list/')
 
 def query_student(request):
     students = {}

@@ -77,7 +77,7 @@ Students:
 			Students (best matches first):
 		  	<ul>
 			{% for student in students %}
-				<li> <a href="{% url 'groupr:update_student' student.netId %}">{{ student.netId }}</a></li>
+				<li> <a href="{% url 'groupr:group_student' netId student.netId %}">{{ student.netId }}</a></li>
 			{% endfor %}
 			</ul>
 			{% else %}
