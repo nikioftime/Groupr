@@ -10,19 +10,14 @@
     Groups:
     <ul>
         {% for group in groups %}
-            <li></li>
+            <li>
+                <a href ="{% url 'groupr:group_list' %}">{{ groups[0] }}</a>
+            </li>
+        {% endfor %}
     </ul>
-
-{% if groups %}
-			Students:
-			<ul>
-			{% for student in students %}
-				<li> <a href="{% url 'groupr:update_student' student.netId %}"><b>{{ student.name }}</b> {{ student.netId }} </a> </li>
-			{% endfor %}
-			</ul>
-		  {% else %}
-			<p>No students are registered yet.</p>
-		  {% endif %}
+{% else %}
+    <p>No groups have been formed yet.</p>
+{% endif %}
 
 </body>
 </html>

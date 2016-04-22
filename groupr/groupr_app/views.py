@@ -8,7 +8,7 @@ from .student_search import searchByDesiredLanguage
 from .student_skill import searchByDesiredSkill
 
 
-class GroupList(generic.ListView):
+class group_list(generic.ListView):
     template_name = "grouplist.html"
     context_object_name = 'groups'
 
