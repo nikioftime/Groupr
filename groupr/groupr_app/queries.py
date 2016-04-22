@@ -97,7 +97,7 @@ def select_query(tables, fields, conditions):
 
 def insert(table, values):
 	query = insert_query(table, values)
-	print(query)
+	# print(query)
 	if query is None:
 		return 
 	cursor = connection.cursor()

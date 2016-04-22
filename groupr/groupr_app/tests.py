@@ -4,14 +4,17 @@ from .queries import *
 from .instructorgroupmatching import *
 
 class InstructorMatchingMethodTests(TestCase):
-	def test_get_students(TestCase):
-		full_student_values = { 'netId' : 'test_full', 
-							'name' : 'test', 
-							'bio' : 'test', 
-							'major' : 'test', 
-							'yearInSchool' : 'test' }
-		insert(full_student_values)
-		print(get_students())
+	# def test_get_students(TestCase):
+	# 	# full_student_values = { 'netId' : 'test_full', 
+	# 	# 					'name' : 'test', 
+	# 	# 					'bio' : 'test', 
+	# 	# 					'major' : 'test', 
+	# 	# 					'yearInSchool' : 'test' }
+	# 	# insert(full_student_values)
+	# 	get_students()
+
+	def test_make_matches():
+		make_matches()
 
 # class SQLQueryMethodTests(TestCase):
 
