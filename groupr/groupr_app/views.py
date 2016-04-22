@@ -18,19 +18,15 @@ class group_list(generic.ListView):
         # Get list of all the dictionaries of groups, each dict is a tuple
         # keys are columns, values are the values in the columns
         # For each group, get netIds of Students in partof
-        group_dicts = []
         group_dicts = select(['Groups'], ['id'], '')
         group_info = []  # Returns list of group, [list of students] pairs
-        # student_list = []
         for tuple in group_dicts:
             student_list = []
             group_member = select(['PartOf'], ['netId'], "PartOf.groupId = {0}".format(tuple['id']))  # ???
             student_list.append(group_member)
             group_info.append([tuple['id'], student_list])
-        #template = loader.get_template('groupr_app/grouplist.html')
-        #context = {
-        #    'groups': group_info,
-        #}
+            print(group_info)
+            #print(student_list)
         return group_info
 
 # Displays the group members of a specific group
